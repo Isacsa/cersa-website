@@ -14,6 +14,19 @@
   to = "/obrigado.html"
   status = 301
 
+# publish = "." serve a raiz inteira, o que incluiria os 3,2MB de PNG
+# originais da marca e os scripts. Não são segredo nenhum, mas também não
+# são para descarregar.
+[[redirects]]
+  from = "/cersa-logo/*"
+  to = "/"
+  status = 404
+
+[[redirects]]
+  from = "/tools/*"
+  to = "/"
+  status = 404
+
 [[headers]]
   for = "/*"
   [headers.values]
