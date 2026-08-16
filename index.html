@@ -53,12 +53,14 @@
       "inLanguage": "pt-PT",
       "address": {
         "@type": "PostalAddress",
-        "addressRegion": "Minho",
+        "addressLocality": "Braga",
+        "addressRegion": "Braga",
         "addressCountry": "PT"
       },
       "areaServed": [
         { "@type": "Country", "name": "Portugal" },
-        { "@type": "AdministrativeArea", "name": "Minho" }
+        { "@type": "AdministrativeArea", "name": "Minho" },
+        { "@type": "City", "name": "Braga" }
       ],
       "hasOfferCatalog": {
         "@type": "OfferCatalog",
@@ -255,20 +257,96 @@
 
   <section id="contacto" class="cta-section">
     <h2 class="cta-title" data-reveal>Tem um problema no seu negócio que devia funcionar melhor?</h2>
-    <div class="cta-actions">
-      <a href="mailto:ola@cersa.pt" class="btn-cta">Falar com a Cersa</a>
-      <span class="cta-response mono">Resposta em 24 horas</span>
+    <div class="contact-grid">
+      <!-- Netlify deteta o formulário no HTML ao fazer deploy. O form-name
+           escondido é preciso para a submissão bater certo com o nome, e o
+           action manda para uma URL própria, que serve de objetivo de
+           conversão mensurável. -->
+      <form class="contact-form" name="contacto" method="POST" action="/obrigado.html"
+            data-netlify="true" netlify-honeypot="website">
+        <input type="hidden" name="form-name" value="contacto" />
+
+        <!-- Isco para bots: escondido e fora da ordem de tabulação, uma
+             pessoa nunca o preenche. Se vier preenchido, o Netlify descarta. -->
+        <p class="honeypot" aria-hidden="true">
+          <label>Deixe este campo em branco
+            <input name="website" tabindex="-1" autocomplete="off" />
+          </label>
+        </p>
+
+        <div class="field-row">
+          <p class="field">
+            <label for="nome">Nome</label>
+            <input id="nome" name="nome" type="text" required autocomplete="name" />
+          </p>
+          <p class="field">
+            <label for="empresa">Empresa</label>
+            <input id="empresa" name="empresa" type="text" autocomplete="organization" />
+          </p>
+        </div>
+
+        <div class="field-row">
+          <p class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" required autocomplete="email" />
+          </p>
+          <p class="field">
+            <label for="telefone">Telefone</label>
+            <input id="telefone" name="telefone" type="tel" autocomplete="tel" />
+          </p>
+        </div>
+
+        <p class="field">
+          <label for="assunto">O que precisa</label>
+          <select id="assunto" name="assunto">
+            <option value="">Ainda não sei / outro</option>
+            <option>Não conseguimos atender todas as chamadas</option>
+            <option>Perdemos pedidos por falta de follow-up</option>
+            <option>Trabalho manual a mais na equipa</option>
+            <option>Precisamos de um site</option>
+            <option>Queremos mais avaliações no Google</option>
+            <option>Software ou automação à medida</option>
+          </select>
+        </p>
+
+        <p class="field">
+          <label for="mensagem">O que está a acontecer hoje</label>
+          <textarea id="mensagem" name="mensagem" rows="4" required
+                    placeholder="Descreva o problema por palavras suas. Não precisa de saber qual é a solução — isso é connosco."></textarea>
+        </p>
+
+        <p class="consent">
+          <input id="consentimento" name="consentimento" type="checkbox" required />
+          <label for="consentimento">Autorizo a Cersa a tratar estes dados para responder ao meu pedido. Ver a <a href="/privacidade.html">política de privacidade</a>.</label>
+        </p>
+
+        <button type="submit" class="btn-cta">Enviar pedido</button>
+      </form>
+
+      <aside class="contact-alt">
+        <p class="contact-alt-intro">Prefere falar diretamente?</p>
+        <a class="contact-line" href="tel:+351968170798">
+          <span class="contact-label mono">Telefone</span>
+          <span class="contact-value">+351 968 170 798</span>
+        </a>
+        <a class="contact-line" href="mailto:ola@cersa.pt">
+          <span class="contact-label mono">Email</span>
+          <span class="contact-value">ola@cersa.pt</span>
+        </a>
+        <p class="contact-note mono">Resposta em 24 horas</p>
+        <p class="contact-note mono">Braga — trabalhamos para todo o país</p>
+      </aside>
     </div>
 
     <footer class="site-footer">
       <div class="footer-brand">
         <img src="assets/cersa-logo-white.png" alt="Cersa" class="brand-logo brand-logo-footer" width="359" height="96" />
-        <span class="footer-tagline mono">Software &amp; AI — Portugal</span>
+        <span class="footer-tagline mono">Software &amp; AI — Braga, Portugal</span>
       </div>
       <nav class="footer-nav">
+        <a href="tel:+351968170798">+351 968 170 798</a>
         <a href="mailto:ola@cersa.pt">Contacto</a>
-        <a href="#">LinkedIn</a>
-        <a href="#">Privacidade</a>
+        <a href="/privacidade.html">Privacidade</a>
       </nav>
       <span class="footer-copyright mono">© 2026</span>
     </footer>

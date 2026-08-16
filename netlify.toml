@@ -1,0 +1,35 @@
+# Site estático sem passo de build: publica-se a raiz tal como está.
+[build]
+  publish = "."
+  command = ""
+
+# URLs limpas: /privacidade em vez de /privacidade.html.
+[[redirects]]
+  from = "/privacidade"
+  to = "/privacidade.html"
+  status = 301
+
+[[redirects]]
+  from = "/obrigado"
+  to = "/obrigado.html"
+  status = 301
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "SAMEORIGIN"
+
+# Os nomes dos ficheiros de fonte e de imagem são estáveis, mas mudam de
+# conteúdo quando se corre tools/build-logo.py. Uma semana chega para
+# aproveitar a cache sem ficar preso a uma versão antiga durante meses.
+[[headers]]
+  for = "/assets/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
