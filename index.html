@@ -1,16 +1,90 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-PT">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Cersa — Software &amp; AI</title>
-<meta name="description" content="A Cersa cria software, automações e sistemas de AI para empresas portuguesas responderem mais rápido, trabalharem melhor e perderem menos oportunidades." />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<title>Software e automação com AI para empresas — Cersa</title>
+<meta name="description" content="Software, automações e sistemas de AI para empresas responderem mais rápido e perderem menos oportunidades. Base no Minho, trabalhamos para todo o país." />
+<link rel="canonical" href="https://cersa.pt/" />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+
+<!-- Fontes locais, por isso o preload arranca no primeiro parse do HTML em
+     vez de esperar pelo CSS. Só o Archivo: desenha o título e o texto acima
+     da dobra, e sendo variável cobre os dois pesos num ficheiro só. -->
+<link rel="preload" href="assets/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="stylesheet" href="styles.css" />
-<link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png" />
-<link rel="apple-touch-icon" href="assets/apple-touch-icon-180.png" />
+
+<link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png" />
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon-180.png" />
+<link rel="manifest" href="/site.webmanifest" />
+<meta name="theme-color" content="#F7F6F3" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0E0F10" media="(prefers-color-scheme: dark)" />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Cersa" />
+<meta property="og:locale" content="pt_PT" />
+<meta property="og:url" content="https://cersa.pt/" />
+<meta property="og:title" content="Software e automação com AI para empresas — Cersa" />
+<meta property="og:description" content="Software, automações e sistemas de AI para empresas portuguesas responderem mais rápido e perderem menos oportunidades." />
+<meta property="og:image" content="https://cersa.pt/assets/og-cover.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Cersa — Software e Inteligência Artificial, Portugal" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Software e automação com AI para empresas — Cersa" />
+<meta name="twitter:description" content="Software, automações e sistemas de AI para empresas portuguesas responderem mais rápido e perderem menos oportunidades." />
+<meta name="twitter:image" content="https://cersa.pt/assets/og-cover.png" />
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "ProfessionalService",
+      "@id": "https://cersa.pt/#empresa",
+      "name": "Cersa",
+      "description": "Software, automações e sistemas de inteligência artificial para empresas portuguesas.",
+      "url": "https://cersa.pt/",
+      "logo": "https://cersa.pt/assets/icon-512.png",
+      "image": "https://cersa.pt/assets/og-cover.png",
+      "email": "ola@cersa.pt",
+      "telephone": "+351968170798",
+      "inLanguage": "pt-PT",
+      "address": {
+        "@type": "PostalAddress",
+        "addressRegion": "Minho",
+        "addressCountry": "PT"
+      },
+      "areaServed": [
+        { "@type": "Country", "name": "Portugal" },
+        { "@type": "AdministrativeArea", "name": "Minho" }
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Serviços",
+        "itemListElement": [
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Sistemas para chamadas perdidas" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Rececionistas AI" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Follow-up automático" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Qualificação de leads" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Websites" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Sistemas de avaliações Google" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Software e automações personalizados" } }
+        ]
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://cersa.pt/#website",
+      "url": "https://cersa.pt/",
+      "name": "Cersa",
+      "inLanguage": "pt-PT",
+      "publisher": { "@id": "https://cersa.pt/#empresa" }
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -114,13 +188,13 @@
   </section>
 
   <section class="section case-section">
-    <p class="eyebrow eyebrow-dark">Um problema real — serviços para casa</p>
-    <div class="case-steps">
+    <p class="eyebrow eyebrow-dark">Um cenário comum — serviços para casa</p>
+    <h2 class="case-steps">
       <span data-step>O telefone toca.</span>
       <span data-step>Está num trabalho.</span>
       <span data-step>Não consegue atender.</span>
       <span data-step class="dim">O cliente liga para a próxima empresa.</span>
-    </div>
+    </h2>
 
     <div class="case-events">
       <div class="event" data-step>
@@ -158,24 +232,24 @@
       <h2 class="build-title">O que podemos construir</h2>
       <p class="build-copy">Alguns exemplos. Nunca começamos por aqui — começamos pelo problema da empresa e construímos em função dele.</p>
     </div>
-    <div class="build-list">
-      <div class="build-item" data-reveal><span class="build-index">01</span><span class="build-label">Sistemas para chamadas perdidas</span></div>
-      <div class="build-item" data-reveal><span class="build-index">02</span><span class="build-label">Rececionistas AI</span></div>
-      <div class="build-item" data-reveal><span class="build-index">03</span><span class="build-label">Follow-up automático</span></div>
-      <div class="build-item" data-reveal><span class="build-index">04</span><span class="build-label">Qualificação de leads</span></div>
-      <div class="build-item" data-reveal><span class="build-index">05</span><span class="build-label">Websites</span></div>
-      <div class="build-item" data-reveal><span class="build-index">06</span><span class="build-label">Sistemas de avaliações Google</span></div>
-      <div class="build-item build-item-last" data-reveal><span class="build-index">07</span><span class="build-label">Software e automações personalizados</span></div>
-      <div class="build-item build-item-muted build-item-last"><span class="build-index">08</span><span class="build-label">O que o seu negócio precisar</span></div>
-    </div>
+    <ul class="build-list">
+      <li class="build-item" data-reveal><span class="build-index">01</span><span class="build-label">Sistemas para chamadas perdidas</span></li>
+      <li class="build-item" data-reveal><span class="build-index">02</span><span class="build-label">Rececionistas AI</span></li>
+      <li class="build-item" data-reveal><span class="build-index">03</span><span class="build-label">Follow-up automático</span></li>
+      <li class="build-item" data-reveal><span class="build-index">04</span><span class="build-label">Qualificação de leads</span></li>
+      <li class="build-item" data-reveal><span class="build-index">05</span><span class="build-label">Websites</span></li>
+      <li class="build-item" data-reveal><span class="build-index">06</span><span class="build-label">Sistemas de avaliações Google</span></li>
+      <li class="build-item build-item-last" data-reveal><span class="build-index">07</span><span class="build-label">Software e automações personalizados</span></li>
+      <li class="build-item build-item-muted build-item-last"><span class="build-index">08</span><span class="build-label">O que o seu negócio precisar</span></li>
+    </ul>
   </section>
 
   <section class="section section-bordered">
-    <div class="philosophy-lines">
+    <h2 class="philosophy-lines">
       <span data-step>AI quando faz sentido.</span>
       <span data-step>Software quando resolve.</span>
       <span data-step class="accent">Resultados sempre.</span>
-    </div>
+    </h2>
     <p class="philosophy-copy" data-reveal>Não vendemos AI por estar na moda. Usamos tecnologia quando existe um problema concreto que vale a pena resolver — e dizemos quando não vale.</p>
   </section>
 
