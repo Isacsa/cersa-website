@@ -59,9 +59,10 @@ a { color: inherit; text-decoration: none; transition: color .25s ease, opacity 
   max-width: 1560px;
   margin: 0 auto;
 }
-.brand { display: flex; align-items: baseline; gap: 10px; }
-.brand-name { font-size: 19px; font-weight: 600; letter-spacing: -0.03em; }
-.brand-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); display: block; margin-bottom: 3px; }
+.brand { display: flex; align-items: center; }
+/* width: auto sobre a altura fixa mantém o rácio; os atributos width/height
+   no <img> dão o rácio ao browser antes do download, para não haver salto. */
+.brand-logo { display: block; height: 26px; width: auto; }
 .nav { display: flex; align-items: center; gap: clamp(16px, 3vw, 40px); font-size: 14px; color: var(--muted); }
 .nav-cta { border: 1px solid var(--ink); color: var(--ink); padding: 9px 18px; border-radius: 100px; }
 .nav-cta:hover { background: var(--ink); color: var(--bg); }
@@ -275,7 +276,10 @@ a { color: inherit; text-decoration: none; transition: color .25s ease, opacity 
   padding-top: 28px; padding-bottom: clamp(40px, 6vh, 64px);
   border-top: 1px solid var(--dark-line);
 }
-.footer-brand { display: flex; flex-direction: column; gap: 8px; }
+/* flex-start impede que o align-items: stretch por omissão estique
+   a largura do logo, que tem width: auto. */
+.footer-brand { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+.brand-logo-footer { height: 24px; }
 .footer-tagline { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dark-muted); }
 .footer-nav { display: flex; gap: 24px; font-size: 14px; color: var(--dark-mid); justify-self: start; }
 .footer-copyright { font-size: 11px; color: #55554F; justify-self: end; }
@@ -310,4 +314,5 @@ a { color: inherit; text-decoration: none; transition: color .25s ease, opacity 
 @media (max-width: 560px) {
   .nav a:not(.nav-cta) { display: none; }
   .nav-cta { white-space: nowrap; }
+  .brand-logo { height: 22px; }
 }
