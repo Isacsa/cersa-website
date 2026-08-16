@@ -279,3 +279,35 @@ a { color: inherit; text-decoration: none; transition: color .25s ease, opacity 
 .footer-tagline { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dark-muted); }
 .footer-nav { display: flex; gap: 24px; font-size: 14px; color: var(--dark-mid); justify-self: start; }
 .footer-copyright { font-size: 11px; color: #55554F; justify-self: end; }
+
+/* Responsive */
+
+/* A 3a coluna da build-list acaba no item 06 (07 e 08 caem nas colunas 1 e 2),
+   por isso só a partir de 3 colunas é que precisa da linha de fecho. */
+@media (min-width: 1200px) {
+  .build-item:nth-child(6) { border-bottom: 1px solid var(--line); }
+}
+
+@media (max-width: 720px) {
+  /* As 3 colunas fixas espremem a 1a abaixo da largura do título, que sendo
+     uma palavra só não quebra e escrevia por cima da descrição. */
+  .work-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 22px 20px;
+    align-items: center;
+  }
+  .work-heading { grid-column: 1; grid-row: 1; }
+  .work-visual { grid-column: 2; grid-row: 1; justify-self: end; }
+  .work-desc { grid-column: 1 / -1; grid-row: 2; max-width: none; }
+  .work-visual-lines { width: 120px; }
+
+  /* Alvos de toque */
+  .nav a, .footer-nav a { min-height: 44px; display: inline-flex; align-items: center; }
+  .footer-nav { flex-wrap: wrap; gap: 8px 24px; }
+}
+
+/* Abaixo disto o nav completo não cabe e o CTA era cortado. */
+@media (max-width: 560px) {
+  .nav a:not(.nav-cta) { display: none; }
+  .nav-cta { white-space: nowrap; }
+}
