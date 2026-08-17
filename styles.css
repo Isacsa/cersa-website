@@ -48,10 +48,8 @@
   --dark-mid: #A3A29E;
 
   /* Grelha de fundo. 160px ecoa os 170px da grelha grossa da timeline do
-     hero -- é o mesmo motivo, alargado à página. --grid-shift é escrito
-     pelo script.js a cada frame para o parallax. */
+     hero -- é o mesmo motivo, alargado à página. */
   --grid-cell: 160px;
-  --grid-shift: 0px;
 }
 
 * { box-sizing: border-box; }
@@ -68,23 +66,18 @@ body {
 }
 
 /* Grelha de fundo, fixa ao ecrã, com o conteúdo a deslizar por cima.
-   Sobredimensionada em altura e deslocada para cima, para o parallax poder
-   arrastá-la sem descobrir o topo nem o fundo. */
+   Estática de propósito: sem transform e sem will-change, não promove
+   camada de compositing nem depende de JavaScript. */
 body::before {
   content: '';
   position: fixed;
-  left: 0;
-  right: 0;
-  top: calc(var(--grid-cell) * -2);
-  bottom: calc(var(--grid-cell) * -2);
+  inset: 0;
   z-index: 0;
   pointer-events: none;
   background-image:
     repeating-linear-gradient(to right, var(--line) 0 1px, transparent 1px var(--grid-cell)),
     repeating-linear-gradient(to bottom, var(--line) 0 1px, transparent 1px var(--grid-cell));
   opacity: 0.55;
-  transform: translate3d(0, var(--grid-shift), 0);
-  will-change: transform;
 }
 
 /* O conteúdo tem de ficar acima da camada da grelha. */
@@ -101,17 +94,13 @@ main,
 .cta-section::before {
   content: '';
   position: absolute;
-  left: 0;
-  right: 0;
-  top: calc(var(--grid-cell) * -2);
-  bottom: calc(var(--grid-cell) * -2);
+  inset: 0;
   z-index: 0;
   pointer-events: none;
   background-image:
     repeating-linear-gradient(to right, var(--dark-line) 0 1px, transparent 1px var(--grid-cell)),
     repeating-linear-gradient(to bottom, var(--dark-line) 0 1px, transparent 1px var(--grid-cell));
   opacity: 0.5;
-  transform: translate3d(0, var(--grid-shift), 0);
 }
 /* Calor a subir do fundo das secções escuras, como luz a entrar. O laranja
    do site só aparece em detalhes minúsculos e é isso que o torna eficaz --
@@ -131,8 +120,11 @@ main,
     color-mix(in oklch, var(--accent) 10%, transparent) 0%,
     transparent 72%);
 }
+/* Sem overflow: hidden. As camadas acima já não passam dos limites da
+   secção, e overflow: hidden faz da secção um contentor de scroll, que é
+   uma variável a menos que vale a pena não ter. */
 .case-section,
-.cta-section { position: relative; overflow: hidden; }
+.cta-section { position: relative; }
 .case-section > *,
 .cta-section > * { position: relative; z-index: 1; }
 
@@ -153,21 +145,27 @@ a { color: inherit; text-decoration: none; transition: color .25s ease, opacity 
 
 /* Animations */
 @keyframes sweep { 0% { left: 0%; } 100% { left: 100%; } }
-/* Direções dos reveals. O script escolhe qual aplicar a partir da
-   estrutura do elemento. */
-@keyframes reveal-up { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
-@keyframes reveal-left { from { opacity: 0; transform: translate3d(-22px, 10px, 0); } to { opacity: 1; transform: none; } }
-@keyframes reveal-right { from { opacity: 0; transform: translate3d(22px, 10px, 0); } to { opacity: 1; transform: none; } }
+/* Reveals SEM opacidade, de propósito.
+   Uma animação que só desloca não consegue esconder nada. Se ficar presa no
+   estado inicial -- por cache desencontrada, timeline que não resolve, ou o
+   que for -- o pior que acontece é o texto ficar uns píxeis fora do sítio.
+   Continua visível e legível.
+   As versões anteriores iam de opacity 0 a 1, e presas no início faziam o
+   conteúdo desaparecer. */
+@keyframes reveal-up { from { transform: translateY(20px); } to { transform: none; } }
+@keyframes reveal-left { from { transform: translate3d(-20px, 10px, 0); } to { transform: none; } }
+@keyframes reveal-right { from { transform: translate3d(20px, 10px, 0); } to { transform: none; } }
 @keyframes blink { 0%, 45% { opacity: 1; } 50%, 100% { opacity: .15; } }
 
-/* Reveals inteiramente em CSS, ligados à posição do scroll.
-   Nada de JavaScript a esconder conteúdo: a versão anterior punha os
-   elementos a opacidade zero e dependia de outra coisa para os trazer de
-   volta, e bastava um desencontro para a página ficar vazia.
+/* Rede de segurança. Nada nesta página pode deixar conteúdo invisível:
+   nem uma folha de estilo em cache antiga, nem JavaScript velho a tentar
+   esconder, nem uma animação presa a meio. Redundante de propósito --
+   custa nada e fecha esta classe de problema de vez. */
+[data-reveal], [data-step] { opacity: 1 !important; }
 
-   Aqui o pior caso é benigno: se o browser não suportar animation-timeline,
-   o bloco @supports não se aplica e o conteúdo aparece na mesma, apenas sem
-   animação. Nada consegue deixar texto invisível. */
+/* Reveals inteiramente em CSS, ligados à posição do scroll, e só em
+   transform. Se o browser não suportar animation-timeline, o bloco não se
+   aplica e o conteúdo aparece na mesma, apenas sem animação. */
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     [data-reveal], [data-step] {
