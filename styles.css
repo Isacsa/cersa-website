@@ -41,8 +41,17 @@
   --dark-bg: #0E0F10;
   --dark-ink: #F2F1EE;
   --dark-line: #2C2D2F;
-  --dark-muted: #7C7B77;
+  /* Aclarado de #7C7B77. O valor antigo dava 4.53:1 sobre o fundo escuro --
+     passava o AA por uma unha negra, e qualquer brilho por baixo punha-o
+     abaixo do mínimo. */
+  --dark-muted: #8A8985;
   --dark-mid: #A3A29E;
+
+  /* Grelha de fundo. 160px ecoa os 170px da grelha grossa da timeline do
+     hero -- é o mesmo motivo, alargado à página. --grid-shift é escrito
+     pelo script.js a cada frame para o parallax. */
+  --grid-cell: 160px;
+  --grid-shift: 0px;
 }
 
 * { box-sizing: border-box; }
@@ -57,6 +66,75 @@ body {
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
+
+/* Grelha de fundo, fixa ao ecrã, com o conteúdo a deslizar por cima.
+   Sobredimensionada em altura e deslocada para cima, para o parallax poder
+   arrastá-la sem descobrir o topo nem o fundo. */
+body::before {
+  content: '';
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: calc(var(--grid-cell) * -2);
+  bottom: calc(var(--grid-cell) * -2);
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    repeating-linear-gradient(to right, var(--line) 0 1px, transparent 1px var(--grid-cell)),
+    repeating-linear-gradient(to bottom, var(--line) 0 1px, transparent 1px var(--grid-cell));
+  opacity: 0.55;
+  transform: translate3d(0, var(--grid-shift), 0);
+  will-change: transform;
+}
+
+/* O conteúdo tem de ficar acima da camada da grelha. */
+.site-header,
+main,
+.cta-section {
+  position: relative;
+  z-index: 1;
+}
+
+/* As secções escuras são opacas e tapam a grelha do corpo, por isso levam a
+   sua própria, na cor de linha do tema escuro. */
+.case-section::before,
+.cta-section::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(var(--grid-cell) * -2);
+  bottom: calc(var(--grid-cell) * -2);
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    repeating-linear-gradient(to right, var(--dark-line) 0 1px, transparent 1px var(--grid-cell)),
+    repeating-linear-gradient(to bottom, var(--dark-line) 0 1px, transparent 1px var(--grid-cell));
+  opacity: 0.5;
+  transform: translate3d(0, var(--grid-shift), 0);
+}
+/* Calor a subir do fundo das secções escuras, como luz a entrar. O laranja
+   do site só aparece em detalhes minúsculos e é isso que o torna eficaz --
+   aqui tem de se sentir sem se ver. A intensidade está limitada pelo
+   contraste do texto por cima, não pelo gosto. */
+.case-section::after,
+.cta-section::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: min(65%, 680px);
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse 75% 100% at 50% 100%,
+    color-mix(in oklch, var(--accent) 10%, transparent) 0%,
+    transparent 72%);
+}
+.case-section,
+.cta-section { position: relative; overflow: hidden; }
+.case-section > *,
+.cta-section > * { position: relative; z-index: 1; }
 
 a { color: inherit; text-decoration: none; transition: color .25s ease, opacity .25s ease, background .25s ease; }
 ::selection { background: var(--accent); color: #fff; }
@@ -75,10 +153,31 @@ a { color: inherit; text-decoration: none; transition: color .25s ease, opacity 
 
 /* Animations */
 @keyframes sweep { 0% { left: 0%; } 100% { left: 100%; } }
-@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+/* Direções dos reveals. O script escolhe qual aplicar a partir da
+   estrutura do elemento. */
+@keyframes reveal-up { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes reveal-left { from { opacity: 0; transform: translate3d(-22px, 10px, 0); } to { opacity: 1; transform: none; } }
+@keyframes reveal-right { from { opacity: 0; transform: translate3d(22px, 10px, 0); } to { opacity: 1; transform: none; } }
 @keyframes blink { 0%, 45% { opacity: 1; } 50%, 100% { opacity: .15; } }
 
 [data-reveal], [data-step] { will-change: opacity, transform; }
+
+/* Quem pediu menos movimento ao sistema operativo leva a página parada.
+   Cobre também o blink do ponto e o sweep do cursor da timeline, que
+   corriam infinitamente sem respeitar a preferência, e o scroll suave. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  /* O parallax não corre, portanto a grelha fica onde está. */
+  body::before,
+  .case-section::before,
+  .cta-section::before { transform: none; }
+  [data-reveal], [data-step] { opacity: 1 !important; will-change: auto; }
+}
 
 /* Header */
 .site-header {
@@ -497,7 +596,9 @@ a { color: inherit; text-decoration: none; transition: color .25s ease, opacity 
 .brand-logo-footer { height: 32px; }
 .footer-tagline { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dark-muted); }
 .footer-nav { display: flex; gap: 24px; font-size: 14px; color: var(--dark-mid); justify-self: start; }
-.footer-copyright { font-size: 11px; color: #55554F; justify-self: end; }
+/* Era #55554F, que dava 2.56:1 -- já falhava o AA antes de existir brilho
+   por baixo. Fica na mesma cor do resto do texto secundário. */
+.footer-copyright { font-size: 11px; color: var(--dark-muted); justify-self: end; }
 
 /* Responsive */
 
