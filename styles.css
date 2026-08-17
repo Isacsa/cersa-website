@@ -162,6 +162,13 @@ a { color: inherit; text-decoration: none; transition: color .25s ease, opacity 
 
 [data-reveal], [data-step] { will-change: opacity, transform; }
 
+/* Quem esconde o conteúdo é esta regra, não o JavaScript.
+   Se este ficheiro estiver em cache antigo, falhar ou não carregar, a
+   regra não existe e nada fica escondido. Ao contrário do inverso, que
+   deixava a página vazia quando o JS escondia e o CSS não tinha os
+   keyframes para a trazer de volta. */
+[data-reveal-state="hidden"] { opacity: 0; }
+
 /* Quem pediu menos movimento ao sistema operativo leva a página parada.
    Cobre também o blink do ponto e o sweep do cursor da timeline, que
    corriam infinitamente sem respeitar a preferência, e o scroll suave. */

@@ -54,15 +54,15 @@
     var siblings = groups.get(el.parentElement) || [el];
     var i = siblings.indexOf(el);
 
-    if (!animate) {
+    if (animate) {
+      el.style.animation =
+        'reveal-' + directionOf(el, siblings) + ' .75s cubic-bezier(.16,.84,.3,1) ' +
+        Math.min(i * STAGGER, MAX_DELAY).toFixed(3) + 's both';
+    } else {
       // Já passou pelo ecrã sem ser visto — mostra sem cerimónia.
-      el.style.opacity = '';
       el.style.animation = '';
-      return;
     }
-    el.style.animation =
-      'reveal-' + directionOf(el, siblings) + ' .75s cubic-bezier(.16,.84,.3,1) ' +
-      Math.min(i * STAGGER, MAX_DELAY).toFixed(3) + 's both';
+    el.removeAttribute('data-reveal-state');
   }
 
   var io = new IntersectionObserver(function (entries) {
@@ -83,13 +83,28 @@
     });
   }, { rootMargin: '0px 0px -10% 0px', threshold: 0.12 });
 
+  var pending = [];
   items.forEach(function (el) {
     // O que já está visível ao carregar não se anima: animar por baixo do
     // olho do visitante lê-se como atraso, não como polimento.
     if (el.getBoundingClientRect().top < window.innerHeight * 0.9) return;
-    el.style.opacity = '0';
+    el.setAttribute('data-reveal-state', 'hidden');
+    pending.push(el);
     io.observe(el);
   });
+
+  /* Rede de segurança. Se por alguma razão o observer não chegar a disparar
+     para um elemento, ao fim de algum tempo mostra-se na mesma. Mais vale
+     conteúdo sem animação do que conteúdo que ninguém vê. */
+  setTimeout(function () {
+    pending.forEach(function (el) {
+      if (el.hasAttribute('data-reveal-state') &&
+          el.getBoundingClientRect().top < window.innerHeight) {
+        show(el, false);
+        io.unobserve(el);
+      }
+    });
+  }, 4000);
 
   /* ---- Parallax da grelha ----------------------------------------------
      A grelha desloca-se a uma fração da velocidade do scroll. Escreve-se
