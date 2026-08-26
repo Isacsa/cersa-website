@@ -156,7 +156,7 @@ textarea { font: inherit; }
   display: flex;
   align-items: center;
   gap: 8px;
-  min-height: 42px;
+  min-height: 44px;
   user-select: none;
   transition: color .22s ease;
 }
@@ -1515,9 +1515,10 @@ textarea { font: inherit; }
 
 @media (max-width: 720px) {
   :root { --section-space: 76px; }
-  .site-header { padding-top: 12px; }
+  .site-header { padding-top: 12px; gap: 16px; }
   .brand-logo { height: 29px; }
-  .nav { gap: 18px; }
+  .nav { gap: 14px; }
+  .nav-cta { padding-right: 14px; padding-left: 14px; font-size: 13px; }
   .nav > a:not(.nav-cta) { display: none; }
   .hero { padding-top: 58px; }
   .hero h1,
@@ -1628,6 +1629,8 @@ textarea { font: inherit; }
 }
 
 @media (max-width: 420px) {
+  .site-header { padding-right: 16px; padding-left: 16px; gap: 14px; }
+  .nav-cta { display: none; }
   .sectors-photo-grid { grid-template-columns: 1fr; }
   .sector-card-copy { inset: auto 20px 20px; }
   .sectors-photo-grid h3 { font-size: 18px; }
@@ -1703,6 +1706,6 @@ textarea { font: inherit; }
 @media (max-width: 520px) {
   .mega-heading { align-items: flex-start; flex-direction: column; gap: 10px; }
   .mega-product { grid-template-columns: 46px 1fr; }
-  .mega-icon { width: 46px; height: 46px; border-radius: 10px; }
+  .mega-thumb { width: 46px; height: 46px; border-radius: 10px; }
   .stats-grid article { flex-direction: column; gap: 12px; }
 }
