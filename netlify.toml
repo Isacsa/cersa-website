@@ -5,6 +5,16 @@
 
 # URLs limpas: /privacidade em vez de /privacidade.html.
 [[redirects]]
+  from = "/produtos"
+  to = "/produtos/"
+  status = 301
+
+[[redirects]]
+  from = "/produtos.html"
+  to = "/produtos/"
+  status = 301
+
+[[redirects]]
   from = "/privacidade"
   to = "/privacidade.html"
   status = 301
@@ -46,3 +56,8 @@
   for = "/assets/*"
   [headers.values]
     Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/site.js"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"

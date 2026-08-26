@@ -11,7 +11,8 @@
 <meta name="robots" content="noindex, follow" />
 
 <link rel="preload" href="assets/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin />
-<link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="styles.css?v=20260826a" />
+<script src="site.js?v=20260826a" defer></script>
 
 <link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png" />
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon-180.png" />
@@ -25,9 +26,12 @@
   <a href="/" class="brand">
     <img src="assets/cersa-logo.png" alt="Cersa" class="brand-logo" width="359" height="96" />
   </a>
-  <nav class="nav">
-    <a href="/#trabalho">O que fazemos</a>
-    <a href="/#construir">O que construímos</a>
+  <nav class="nav" aria-label="Navegação principal">
+    <a href="/#como-funciona">Como funciona</a>
+    <details class="products-nav" data-products-nav>
+      <summary>Produtos <span aria-hidden="true">⌄</span></summary>
+      <div class="products-mega" data-products-menu></div>
+    </details>
     <a href="/" class="nav-cta">Voltar ao início</a>
   </nav>
 </header>
@@ -38,19 +42,19 @@
     <h1 class="page-title">Recebemos o seu pedido. Respondemos em 24 horas.</h1>
 
     <div class="page-body">
-      <p>Vamos ler o que escreveu antes de responder. Não vai receber um email automático com uma proposta genérica.</p>
-      <p>Se for urgente, ligue diretamente — atendemos e resolvemos mais depressa ao telefone.</p>
+      <p>Vamos ler o que escreveu e perceber primeiro onde os pedidos, o acompanhamento ou a presença online podem estar a falhar.</p>
+      <p>Se preferir falar diretamente, pode ligar-nos e explicar o contexto por telefone.</p>
     </div>
 
     <div class="page-actions">
-      <a class="btn-primary" href="tel:+351968170798">Ligar +351 968 170 798</a>
+      <a class="btn-primary" href="tel:+351968170798">Ligar +351&nbsp;968&nbsp;170&nbsp;798</a>
       <a class="btn-secondary" href="/">Voltar ao site</a>
     </div>
 
     <ol class="next-steps">
-      <li><span class="next-index mono">01</span><span>Lemos o pedido e percebemos o contexto do seu negócio.</span></li>
-      <li><span class="next-index mono">02</span><span>Respondemos com perguntas concretas ou com uma proposta de conversa.</span></li>
-      <li><span class="next-index mono">03</span><span>Se houver encaixe, avançamos. Se não houver, dizemos.</span></li>
+      <li><span class="next-index mono">01</span><span>Percebemos o contexto da sua empresa e o que acontece hoje.</span></li>
+      <li><span class="next-index mono">02</span><span>Identificamos as peças do sistema que podem fazer sentido — e as que não fazem.</span></li>
+      <li><span class="next-index mono">03</span><span>Explicamos como funcionaria na prática, sem promessas nem soluções genéricas.</span></li>
     </ol>
   </section>
 </main>
@@ -58,14 +62,15 @@
 <section class="cta-section cta-section-slim">
   <footer class="site-footer">
     <div class="footer-brand">
-      <img src="assets/cersa-logo-white.png" alt="Cersa" class="brand-logo brand-logo-footer" width="359" height="96" />
-      <span class="footer-tagline mono">Software &amp; AI — Braga, Portugal</span>
+      <img src="assets/cersa-logo-white.png" alt="Cersa" class="brand-logo footer-logo" width="359" height="96" />
+      <span class="mono">Sistemas para empresas locais de serviços</span>
     </div>
-    <nav class="footer-nav">
+    <nav class="footer-nav" aria-label="Navegação de rodapé">
+      <a href="/produtos/">Produtos</a>
       <a href="mailto:ola@cersa.pt">Contacto</a>
       <a href="/privacidade.html">Privacidade</a>
     </nav>
-    <span class="footer-copyright mono">© 2026</span>
+    <span class="footer-year mono">© 2026</span>
   </footer>
 </section>
 

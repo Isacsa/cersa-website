@@ -10,7 +10,8 @@
 <meta name="robots" content="index, follow" />
 
 <link rel="preload" href="assets/fonts/archivo.woff2" as="font" type="font/woff2" crossorigin />
-<link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="styles.css?v=20260826a" />
+<script src="site.js?v=20260826a" defer></script>
 
 <link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png" />
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon-180.png" />
@@ -24,9 +25,12 @@
   <a href="/" class="brand">
     <img src="assets/cersa-logo.png" alt="Cersa" class="brand-logo" width="359" height="96" />
   </a>
-  <nav class="nav">
-    <a href="/#trabalho">O que fazemos</a>
-    <a href="/#construir">O que construímos</a>
+  <nav class="nav" aria-label="Navegação principal">
+    <a href="/#como-funciona">Como funciona</a>
+    <details class="products-nav" data-products-nav>
+      <summary>Produtos <span aria-hidden="true">⌄</span></summary>
+      <div class="products-mega" data-products-menu></div>
+    </details>
     <a href="/#contacto" class="nav-cta">Falar connosco</a>
   </nav>
 </header>
@@ -40,7 +44,7 @@
     <div class="legal">
       <h2>Quem trata os dados</h2>
       <p>A responsável pelo tratamento é a <strong>Cersa</strong>, com base em Braga, Portugal.</p>
-      <p>Para qualquer questão sobre os seus dados: <a href="mailto:ola@cersa.pt">ola@cersa.pt</a> ou <a href="tel:+351968170798">+351 968 170 798</a>.</p>
+      <p>Para qualquer questão sobre os seus dados: <a href="mailto:ola@cersa.pt">ola@cersa.pt</a> ou <a href="tel:+351968170798">+351&nbsp;968&nbsp;170&nbsp;798</a>.</p>
 
       <h2>Que dados recolhemos</h2>
       <p>Apenas os que nos dá no formulário de contacto:</p>
@@ -103,14 +107,15 @@
 <section class="cta-section cta-section-slim">
   <footer class="site-footer">
     <div class="footer-brand">
-      <img src="assets/cersa-logo-white.png" alt="Cersa" class="brand-logo brand-logo-footer" width="359" height="96" />
-      <span class="footer-tagline mono">Software &amp; AI — Braga, Portugal</span>
+      <img src="assets/cersa-logo-white.png" alt="Cersa" class="brand-logo footer-logo" width="359" height="96" />
+      <span class="mono">Sistemas para empresas locais de serviços</span>
     </div>
-    <nav class="footer-nav">
+    <nav class="footer-nav" aria-label="Navegação de rodapé">
+      <a href="/produtos/">Produtos</a>
       <a href="mailto:ola@cersa.pt">Contacto</a>
       <a href="/privacidade.html">Privacidade</a>
     </nav>
-    <span class="footer-copyright mono">© 2026</span>
+    <span class="footer-year mono">© 2026</span>
   </footer>
 </section>
 

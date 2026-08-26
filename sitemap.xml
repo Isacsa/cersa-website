@@ -7,6 +7,46 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://cersa.pt/produtos/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://cersa.pt/produtos/website/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://cersa.pt/produtos/recuperacao-de-chamadas/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://cersa.pt/produtos/caixa-de-entrada/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://cersa.pt/produtos/seo-local/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://cersa.pt/produtos/reviews-google/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://cersa.pt/produtos/campanhas/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://cersa.pt/produtos/acompanhamento-sms/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://cersa.pt/privacidade.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
