@@ -156,6 +156,58 @@
     requestHeaderThemeUpdate();
   }
 
+  const contactForm = document.querySelector('form[name="contacto"]');
+
+  if (contactForm) {
+    const submitButton = contactForm.querySelector('button[type="submit"]');
+    const formStatus = contactForm.querySelector('[data-form-status]');
+    let isSubmitting = false;
+
+    contactForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (isSubmitting) return;
+
+      isSubmitting = true;
+      if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.dataset.originalLabel = submitButton.textContent;
+        submitButton.textContent = 'A enviar…';
+      }
+      if (formStatus) formStatus.textContent = 'Estamos a enviar o seu pedido.';
+
+      const encodedForm = new URLSearchParams();
+      new FormData(contactForm).forEach((value, key) => {
+        if (typeof value === 'string') encodedForm.append(key, value);
+      });
+
+      try {
+        const [response] = await Promise.all([
+          fetch('/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: encodedForm.toString()
+          }),
+          // O tracking externo envia a submissão em paralelo. Este pequeno
+          // intervalo evita que a navegação cancele o pedido ao HighLevel.
+          new Promise((resolve) => window.setTimeout(resolve, 1200))
+        ]);
+
+        if (!response.ok) throw new Error(`Form submission failed: ${response.status}`);
+        window.location.assign('/obrigado.html');
+      } catch (error) {
+        isSubmitting = false;
+        if (submitButton) {
+          submitButton.disabled = false;
+          submitButton.textContent = submitButton.dataset.originalLabel || 'Marcar uma conversa';
+        }
+        if (formStatus) {
+          formStatus.textContent = 'Não foi possível enviar. Tente novamente ou ligue para +351 968 170 798.';
+          formStatus.classList.add('is-error');
+        }
+      }
+    });
+  }
+
   const revealElements = Array.from(document.querySelectorAll('[data-reveal]'));
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
