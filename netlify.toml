@@ -3,16 +3,16 @@
   publish = "."
   command = ""
 
-# URLs limpas: /privacidade em vez de /privacidade.html.
-[[redirects]]
-  from = "/produtos"
-  to = "/produtos/"
-  status = 301
+# Preserva os URLs canónicos escritos no HTML. A normalização automática
+# fazia produtos.html sobrepor-se a produtos/index.html em /produtos.
+[build.processing.html]
+  pretty_urls = false
 
 [[redirects]]
   from = "/produtos.html"
   to = "/produtos/"
   status = 301
+  force = true
 
 [[redirects]]
   from = "/privacidade"

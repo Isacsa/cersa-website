@@ -44,10 +44,17 @@
     },
     {
       number: '07',
-      title: 'Acompanhamento por SMS',
-      description: 'Confirmações e follow-up para pedidos vindos de vários canais.',
+      title: 'Resposta e acompanhamento',
+      description: 'Resposta a pedidos e contacto com clientes depois do serviço.',
       image: '/assets/produtos-menu/acompanhamento-sms.webp',
       href: '/produtos/acompanhamento-sms/'
+    },
+    {
+      number: '08',
+      title: 'Google Search Ads',
+      description: 'Anúncios para pesquisas relevantes, depois de preparar a base.',
+      image: '/assets/produtos-menu/google-search-ads.svg',
+      href: '/produtos/google-search-ads/'
     }
   ];
 
@@ -71,7 +78,6 @@
         <a href="/produtos/">Ver todos <span aria-hidden="true">→</span></a>
       </div>
       <div class="mega-grid">${productMarkup}</div>
-      <noscript><a href="/produtos/">Ver todos os produtos</a></noscript>
     `;
   });
 
@@ -85,7 +91,6 @@
     details.addEventListener('pointerenter', () => {
       if (!canHover.matches) return;
       window.clearTimeout(closeTimer);
-      details.open = true;
     });
 
     details.addEventListener('pointerleave', () => {
@@ -173,7 +178,10 @@
         submitButton.dataset.originalLabel = submitButton.textContent;
         submitButton.textContent = 'A enviar…';
       }
-      if (formStatus) formStatus.textContent = 'Estamos a enviar o seu pedido.';
+      if (formStatus) {
+        formStatus.classList.remove('is-error');
+        formStatus.textContent = 'Estamos a enviar o seu pedido.';
+      }
 
       const encodedForm = new URLSearchParams();
       new FormData(contactForm).forEach((value, key) => {
@@ -208,28 +216,137 @@
     });
   }
 
-  const revealElements = Array.from(document.querySelectorAll('[data-reveal]'));
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+})();
 
-  if (!revealElements.length || reducedMotion || !('IntersectionObserver' in window)) return;
+// The story is progressive enhancement. Text and examples are complete in HTML.
+// Moving only the decorative figures keeps one source for desktop and mobile.
+(() => {
+  const story = document.querySelector('[data-cersa-story]');
+  if (!story || !('IntersectionObserver' in window)) return;
 
-  document.documentElement.classList.add('reveal-ready');
+  const steps = Array.from(story.querySelectorAll('[data-story-step]'));
+  const stage = story.querySelector('[data-story-stage]');
+  const sceneContainer = story.querySelector('[data-story-scenes]');
+  const trails = Array.from(story.querySelectorAll('[data-story-trail]'));
+  const desktop = window.matchMedia('(min-width: 1024px) and (min-height: 700px)');
+  const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const scenes = steps.map((step) => step.querySelector('[data-story-scene]'));
+  if (!stage || !sceneContainer || scenes.some((scene) => !scene)) return;
 
-  revealElements.forEach((element, index) => {
-    const delay = Math.min(index % 3, 2) * 70;
-    element.style.setProperty('--reveal-delay', `${delay}ms`);
+  const anchors = scenes.map((scene) => {
+    const anchor = document.createComment('story illustration');
+    scene.before(anchor);
+    return anchor;
   });
+  let observer;
+  let enhanced = false;
+  let current = -1;
 
+  const activate = (index) => {
+    if (index === current) return;
+    current = index;
+    steps.forEach((step, i) => step.classList.toggle('is-current', i === index));
+    scenes.forEach((scene, i) => {
+      scene.classList.toggle('is-active', i === index);
+      scene.classList.toggle('is-before', i < index);
+    });
+    trails.forEach((trail, i) => {
+      trail.classList.toggle('is-current', i === index);
+      trail.classList.toggle('is-reached', i <= index);
+    });
+    stage.style.setProperty('--story-progress', String(index / (steps.length - 1)));
+    stage.dataset.storyActive = steps[index].dataset.storyStep;
+  };
+
+  const nearestStep = () => {
+    const target = window.innerHeight * .45;
+    let nearest = 0;
+    let distance = Infinity;
+    steps.forEach((step, index) => {
+      const bounds = step.getBoundingClientRect();
+      const nextDistance = Math.abs(bounds.top + bounds.height / 2 - target);
+      if (nextDistance < distance) {
+        distance = nextDistance;
+        nearest = index;
+      }
+    });
+    activate(nearest);
+  };
+
+  const setOffset = () => {
+    const headerHeight = document.querySelector('.site-header')?.getBoundingClientRect().height || 64;
+    story.style.setProperty('--story-offset', `${Math.ceil(headerHeight + 16)}px`);
+  };
+
+  const restore = () => {
+    observer?.disconnect();
+    observer = undefined;
+    enhanced = false;
+    stage.hidden = true;
+    story.classList.remove('story-enhanced');
+    scenes.forEach((scene, i) => {
+      anchors[i].after(scene);
+      scene.classList.remove('is-active', 'is-before');
+      steps[i].classList.remove('is-current');
+    });
+    current = -1;
+  };
+
+  const updateMode = () => {
+    if (!desktop.matches || motion.matches) {
+      if (enhanced) restore();
+      return;
+    }
+    if (enhanced) {
+      setOffset();
+      nearestStep();
+      return;
+    }
+    try {
+      scenes.forEach((scene) => sceneContainer.append(scene));
+      setOffset();
+      stage.hidden = false;
+      story.classList.add('story-enhanced');
+      enhanced = true;
+      nearestStep();
+      // Select from actual geometry, including fast jumps and reverse scrolling.
+      observer = new IntersectionObserver(nearestStep, {
+        rootMargin: '-35% 0px -45% 0px',
+        threshold: 0
+      });
+      steps.forEach((step) => observer.observe(step));
+    } catch (error) {
+      restore();
+      console.warn('Cersa story uses its static layout.', error);
+    }
+  };
+
+  desktop.addEventListener('change', updateMode);
+  motion.addEventListener('change', updateMode);
+  window.addEventListener('resize', () => {
+    if (enhanced) { setOffset(); nearestStep(); }
+  }, { passive: true });
+  window.addEventListener('pageshow', () => { if (enhanced) nearestStep(); });
+  updateMode();
+})();
+
+// A short handoff cue in product examples; the illustration is always visible.
+(() => {
+  const examples = document.querySelectorAll('[data-product-visual]');
+  if (!examples.length || !('IntersectionObserver' in window)) return;
+  const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (motion.matches) return;
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (!entry.isIntersecting) return;
-      entry.target.classList.add('is-visible');
+      if (!motion.matches) entry.target.classList.add('is-shown');
       observer.unobserve(entry.target);
     });
-  }, {
-    threshold: 0.12,
-    rootMargin: '0px 0px -7% 0px'
+  }, { threshold: .15 });
+  examples.forEach((example) => observer.observe(example));
+  motion.addEventListener('change', () => {
+    if (!motion.matches) return;
+    examples.forEach((example) => example.classList.remove('is-shown'));
+    observer.disconnect();
   });
-
-  revealElements.forEach((element) => observer.observe(element));
 })();
